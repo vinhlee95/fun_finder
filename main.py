@@ -44,4 +44,8 @@ agent_executor = AgentExecutor(
   verbose=True,
 )
 
-agent_executor.run("Are there any available hours on Court 2 on 2024-08-18? Give me the results with this format: court_id - hour")
+agent_executor.run(
+  """
+    Are there any available hours in the next 7 days? 
+    Give me the results with this format: date - hour - court_id
+  """)
