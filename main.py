@@ -5,7 +5,7 @@ from langchain.agents import OpenAIFunctionsAgent, AgentExecutor
 
 from dotenv import load_dotenv
 
-from db import describe_tables_tool, list_tables, run_query_tool
+from db.db import describe_tables_tool, list_tables, run_query_tool
 
 load_dotenv()
 
