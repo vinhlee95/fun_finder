@@ -46,6 +46,6 @@ agent_executor = AgentExecutor(
 
 agent_executor.run(
   """
-    Are there any available hours in the next 7 days? 
+    Are there any available hours in the next 2 days? 
     Give me the results with this format: date - hour - court_id
   """)
