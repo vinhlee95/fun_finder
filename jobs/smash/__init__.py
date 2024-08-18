@@ -6,6 +6,7 @@ import pytz
 from dotenv import load_dotenv
 load_dotenv()
 
+
 logger = pprint.PrettyPrinter(indent=2)
 
 # Example: https://api.smash.fi/api/1.0/reservations/?productid=15&date=2023-04-04
@@ -94,5 +95,5 @@ def fetch_smash_olari_availability(for_next_n_days: int = 8):
 
 
 # Enable following lines to save the response to a file with command: python smash_olari.py > example_response/smash.json
-available_slots = fetch_smash_olari_availability(2)
-print(available_slots)
+# available_slots = fetch_smash_olari_availability(2)
+# print(available_slots)
