@@ -1,3 +1,4 @@
 fun_finder
 .env
 __pycache__/
+.vscode
