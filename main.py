@@ -47,5 +47,7 @@ agent_executor = AgentExecutor(
 agent_executor.run(
   """
     Are there any available hours in the next 2 days at "Smash Olari" court? 
-    Give me the results with this format: date - hour - court_id - court_name
+    Give me the results with this format: date - hour - court_id - court_name. 
+    
+    Show the result as a table in the terminal.
   """)
