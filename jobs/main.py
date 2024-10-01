@@ -1,7 +1,7 @@
 from db.available_slot import AvailableSlotSchema, persist_available_slot
 from smash import fetch_smash_olari_availability
 
-DEFAULT_PERIOD = 8
+DEFAULT_PERIOD = 7
 
 # {
 #   "date": {
@@ -9,7 +9,6 @@ DEFAULT_PERIOD = 8
 #   }
 # }
 type DailyAvailableSlot = dict[str, dict[str, list[int]]]
-
 
 def save_available_slots_for_day(available_slots: DailyAvailableSlot, court_name: str):
   for date, slots in available_slots.items():

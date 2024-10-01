@@ -87,7 +87,7 @@ def fetch_smash_olari_availability(for_next_n_days: int = 8):
   # Fetch reservations for the next month
   available_slots = []
 
-  for i in range(1, for_next_n_days):
+  for i in range(0, for_next_n_days):
     available_reservation_for_date = fetch_available_start_hour_by_date((datetime.now() + timedelta(days=i)))
     available_slots.append(available_reservation_for_date)
 
