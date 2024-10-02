@@ -67,3 +67,9 @@ make run center=smash_olari
 When the fetching is done, we should have output of available slots in [smash_olari.json](./example_response/smash_olari.json).
 
 Note that the output is not yet formatted to JSON. Using your IDE to do this to make the output easier to read.
+
+## Development ideas
+- [ ] Specify court name in the query
+
+## Learning ideas
+- [ ] Learn how langchain tools work behind the scene

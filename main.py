@@ -61,7 +61,7 @@ prompt = ChatPromptTemplate(
   input_variables=[],
 )
 
-tools = [get_next_weekday, run_query_tool, describe_tables_tool]
+tools = [run_query_tool, describe_tables_tool, get_next_weekday]
 
 agent = OpenAIFunctionsAgent(
   llm=llm,
@@ -77,7 +77,7 @@ agent_executor = AgentExecutor(
 
 agent_executor.run(
   """
-    Are there any available hours on this Friday after 6PM at "Smash Olari" court? 
+    Are there any available hours on this Friday after 6PM at "Smash" court? 
     Give me the results with this format: date - hour - court_id - court_name. 
     
     Show the result as a table in the terminal.
