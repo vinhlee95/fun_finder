@@ -52,6 +52,7 @@ prompt = ChatPromptTemplate(
       "Do not make any assumption about the tables. \n"
       "Instead always try to use 'describe_tables_tool' to get schema of relevant tables \n"
       "before you try to figure out the query. \n"
+      "Also, if a query is to filter by court_name, always use LIKE operator instead of =. \n"
     ),
     HumanMessagePromptTemplate.from_template("{input}"),
     # agent_scratchpad is specific, kinda a simple form of memorising 
@@ -77,7 +78,7 @@ agent_executor = AgentExecutor(
 
 agent_executor.run(
   """
-    Are there any available hours on this Friday after 6PM at "Smash" court? 
+    Are there any available hours on this Friday after 6PM at "Olari" court? 
     Give me the results with this format: date - hour - court_id - court_name. 
     
     Show the result as a table in the terminal.
