@@ -53,6 +53,7 @@ prompt = ChatPromptTemplate(
       "Instead always try to use 'describe_tables_tool' to get schema of relevant tables \n"
       "before you try to figure out the query. \n"
       "Also, if a query is to filter by court_name, always use LIKE operator instead of =. \n"
+      "remember to use % for wildcard search."
     ),
     HumanMessagePromptTemplate.from_template("{input}"),
     # agent_scratchpad is specific, kinda a simple form of memorising 
