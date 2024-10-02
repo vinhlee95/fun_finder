@@ -1,7 +1,7 @@
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate, MessagesPlaceholder
 from langchain.schema import SystemMessage
-from langchain.agents import OpenAIFunctionsAgent, AgentExecutor
+from langchain.agents import AgentExecutor, create_openai_functions_agent
 from datetime import datetime, timedelta
 
 from dotenv import load_dotenv
@@ -65,7 +65,7 @@ prompt = ChatPromptTemplate(
 
 tools = [run_query_tool, describe_tables_tool, get_next_weekday]
 
-agent = OpenAIFunctionsAgent(
+agent = create_openai_functions_agent(
   llm=llm,
   prompt=prompt,
   tools=tools,
@@ -77,10 +77,13 @@ agent_executor = AgentExecutor(
   verbose=True,
 )
 
-agent_executor.run(
-  """
-    Are there any available hours on this Saturday from 19-22 in Tennismesta courts? 
-    Give me the results with this format: date - hour - court_id - court_name. 
-    
-    Show the result as a table in the terminal.
-  """)
+agent_executor.invoke(
+    {
+        "input": """
+          Are there any available hours on this Saturday from 19-22 in Tennismesta courts? 
+          Give me the results with this format: date - hour - court_id - court_name. 
+          
+          Show the result as a table in the terminal.
+        """
+    }
+)
