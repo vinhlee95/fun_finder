@@ -79,7 +79,7 @@ agent_executor = AgentExecutor(
 
 agent_executor.run(
   """
-    Are there any available hours on this Friday from 12-16 in all courts? 
+    Are there any available hours on this Saturday from 19-22 in Tennismesta courts? 
     Give me the results with this format: date - hour - court_id - court_name. 
     
     Show the result as a table in the terminal.
