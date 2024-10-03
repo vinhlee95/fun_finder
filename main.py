@@ -25,9 +25,15 @@ def get_next_weekday(phrase: str):
     weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     
     parts = phrase.split()
-    if len(parts) != 2 or parts[0] not in ["this", "next"] or parts[1] not in weekdays:
+    if len(parts) == 2 and (parts[0] not in ["this", "next"] or parts[1] not in weekdays):
+        raise ValueError("Invalid phrase. Please use format 'this <weekday>' or 'next <weekday>'.")
+    
+    if len(parts) == 1 and parts[0] != "today":
         raise ValueError("Invalid phrase. Please use format 'this <weekday>' or 'next <weekday>'.")
 
+    if parts[0] == "today":
+        return today.strftime('%Y-%m-%d')
+    
     target_weekday = parts[1]
     target_weekday_index = weekdays.index(target_weekday)
     days_ahead = target_weekday_index - today.weekday()
@@ -80,7 +86,7 @@ agent_executor = AgentExecutor(
 agent_executor.invoke(
     {
         "input": """
-          Are there any available hours on this Saturday from 19-22 in Tennismesta courts? 
+          Are there any available hours today from 19-22 in Tennismesta courts? 
           Give me the results with this format: date - hour - court_id - court_name. 
           
           Show the result as a table in the terminal.
