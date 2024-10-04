@@ -47,13 +47,9 @@ agent_executor = AgentExecutor(
   verbose=True,
 )
 
-agent_executor.invoke(
-    {
-        "input": """
-          Are there any available hours today from 19-22 in Tennismesta courts? 
-          Give me the results with this format: date - hour - court_id - court_name. 
-          
-          Show the result as a table in the terminal.
-        """
-    }
-)
+def execute_query(input_str: str):
+  return agent_executor.invoke(
+      {
+          "input": input_str
+      }
+  )
