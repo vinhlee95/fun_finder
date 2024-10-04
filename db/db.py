@@ -1,14 +1,11 @@
+import os
 import psycopg2
 from langchain.tools import tool
 from pydantic.v1 import BaseModel
 
+DB_URL = os.getenv("DATABASE_URL")
 
-conn = psycopg2.connect(
-  dbname="tennis_reservation",
-  user="vinhle",
-  host="localhost",
-  port="5432",
-)
+conn = psycopg2.connect(DB_URL)
 
 def list_tables():
   cur = conn.cursor()
