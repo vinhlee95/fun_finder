@@ -6,3 +6,5 @@ langchain_openai==0.1.21
 pytz==2024.1
 fastapi==0.115.0
 uvicorn==0.31.0
+alembic==1.13.3
+SQLAlchemy==2.0.35

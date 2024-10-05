@@ -3,9 +3,7 @@ import psycopg2
 from langchain.tools import tool
 from pydantic.v1 import BaseModel
 
-DB_URL = os.getenv("DATABASE_URL")
-
-conn = psycopg2.connect(DB_URL)
+conn = psycopg2.connect(os.getenv("DATABASE_URL"))
 
 def list_tables():
   cur = conn.cursor()

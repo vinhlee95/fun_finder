@@ -1,5 +1,7 @@
+from sqlalchemy import Column, Integer, String, UniqueConstraint
+from sqlalchemy.ext.declarative import declarative_base
+
 from db.db import conn
-from datetime import date
 from pydantic.v1 import BaseModel
 
 class AvailableSlotSchema(BaseModel):
@@ -19,3 +21,19 @@ def persist_available_slot(available_slot: AvailableSlotSchema) -> None:
   )
   conn.commit()
   return
+
+
+Base = declarative_base()
+
+class AvailableSlot(Base):
+    __tablename__ = 'available_slots'
+
+    id = Column(Integer, primary_key=True, index=True)
+    date = Column(String, nullable=False)
+    court_id = Column(String, nullable=False)
+    available_hour = Column(Integer, nullable=False)
+    court_name = Column(String, nullable=False)
+
+    __table_args__ = (
+        UniqueConstraint('date', 'court_id', 'available_hour', name='unique_slot'),
+    )
