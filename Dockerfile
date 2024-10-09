@@ -20,7 +20,10 @@ COPY . .
 RUN chmod +x ./entrypoint.sh
 
 # Expose the port that the app runs on
-EXPOSE 8000
+EXPOSE 8080
+
+# Run the server
+CMD uvicorn app:app --host 0.0.0.0 --port 8080
 
 # Set the entry point to the custom script
-ENTRYPOINT ["./entrypoint.sh"]
+# ENTRYPOINT ["./entrypoint.sh"]
