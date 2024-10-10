@@ -10,6 +10,10 @@ services:
       - db
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/tennis_reservation
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials/google_default_credentials.json
+      - ENV=development
+    volumes:
+      - ~/.config/gcloud/application_default_credentials.json:/app/credentials/google_default_credentials.json
 
   db:
     image: postgres:latest

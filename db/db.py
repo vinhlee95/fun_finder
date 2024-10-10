@@ -2,14 +2,30 @@ import os
 import psycopg2
 from langchain.tools import tool
 from pydantic.v1 import BaseModel
+from google.cloud.sql.connector import Connector
 
 def get_db_connection():
-  try:
-    conn = psycopg2.connect(os.getenv("DATABASE_URL"))
-    return conn
-  except Exception as e:
-    print(f"An exception occurred {str(e)}")
-    return None
+  env = os.getenv("ENV")
+  if env == "development":
+    try:
+      conn = psycopg2.connect(os.getenv("DATABASE_URL"))
+      return conn
+    except Exception as e:
+      print(f"An exception occurred {str(e)}")
+      return None
+    
+  # Connect to Google Cloud SQL on production
+  connector = Connector()
+
+  conn = connector.connect(
+    os.getenv("INSTANCE_CONNECTION_NAME", ""), 
+    "pg8000",
+    user=os.getenv("DB_USER"), 
+    db=os.getenv("DB_NAME"), 
+    password=os.getenv("DB_PASSWORD")
+  )
+
+  return conn
 
 
 def list_tables():

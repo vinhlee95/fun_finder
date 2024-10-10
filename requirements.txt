@@ -8,3 +8,6 @@ fastapi==0.115.0
 uvicorn==0.31.0
 alembic==1.13.3
 SQLAlchemy==2.0.35
+cloud-sql-python-connector==1.12.1
+cloud-sql-python-connector[pg8000]==1.12.1
+google-auth==2.35.0
