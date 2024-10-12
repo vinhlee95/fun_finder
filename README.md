@@ -1,4 +1,47 @@
-## Installation
+## Deployment
+### Deploy web server
+Make sure to authenticate with `gcloud` CLI beforehand.
+
+1. Build gcloud-compatible docker image:
+```shell
+docker build -t europe-north1-docker.pkg.dev/fun-finder-12/fun-finder/fun-finder-backend:latest . --platform linux/amd64
+```
+2. Push docker image to GCP Artifact Registry:
+```shell
+docker push europe-north1-docker.pkg.dev/fun-finder-12/fun-finder/fun-finder-backend:latest
+```
+3. Deploy the web server to Cloud Run:
+```shell
+gcloud run deploy fun-finder-backend --image europe-north1-docker.pkg.dev/fun-finder-12/fun-finder/fun-finder-backend:latest --platform=managed --region=europe-north1
+```
+
+### Deploy cronjob to fetch data
+1. Build gcloud-compatible docker image:
+```shell
+docker build -t europe-north1-docker.pkg.dev/fun-finder-12/fun-finder/fun-finder-cron:latest -f Dockerfile.cronjob --platform linux/amd64 .
+```
+
+2. Push docker image to GCP Artifact Registry:
+```shell
+docker push europe-north1-docker.pkg.dev/fun-finder-12/fun-finder/fun-finder-cron:latest
+```
+
+3. Deploy a new version of the cronjob to Cloud Run:
+```shell
+gcloud run jobs deploy cron-fetch-available-tennis-slots --image=europe-north1-docker.pkg.dev/fun-finder-12/fun-finder/fun-finder-cron:latest
+```
+
+4. Trigger the job manually:
+```shell
+gcloud run jobs execute cron-fetch-available-tennis-slots
+```
+
+## Local development - Docker
+```shell
+docker-compose up --build
+```
+
+## Local development - Python virtual environment
 ### 1. Manage python version with `asdf`:
 ```shell
 $ brew install asdf
@@ -28,12 +71,12 @@ virtualenv 20.21.0 from /opt/homebrew/lib/python3.11/site-packages/virtualenv/__
 
 Create a virtual environment, having python version installed by `asdf`:
 ```shell 
-$ virtualenv --python=$(asdf which python) reservation
+$ virtualenv --python=$(asdf which python) fun_finder
 ```
 
 ### 3. Activate the virtual environment
 ```shell
-$ source reservation/bin/activate
+$ source fun_finder/bin/activate
 ```
 
 After this step, we should use correct python version in the virtual environment:
@@ -42,34 +85,10 @@ $ python --version
 Python 3.11.2
 
 $ which python
-/Users/vinhle/dev/apps/tennis-reservation/reservation/bin/python
+/Users/vinhle/dev/projects/fun_finder/fun_finder/bin/python
 ```
 
 ### 4. Install dependencies
 ```shell
 $ pip3 install -r requirements.txt
 ```
-
-
-## Usage
-### Test fetching available slots for 1 court
-Uncomment these lines in e.g. `smash_olari.py`:
-```python
-# available_slots = fetch_smash_olari_availability()
-# print(available_slots)
-```
-
-Then run the command:
-```shell
-make run center=smash_olari 
-```
-
-When the fetching is done, we should have output of available slots in [smash_olari.json](./example_response/smash_olari.json).
-
-Note that the output is not yet formatted to JSON. Using your IDE to do this to make the output easier to read.
-
-## Development ideas
-- [x] Specify court name in the query
-
-## Learning ideas
-- [ ] Learn how langchain tools work behind the scene
