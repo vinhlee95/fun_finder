@@ -74,8 +74,8 @@ def fetch_available_start_hour_by_date(date_obj: datetime = datetime.now()):
   # Convert to UTC
   utc_date_obj = date_obj.astimezone(pytz.utc)
   
-  # Format the datetime object to ISO 8601 string
-  formatted_date = utc_date_obj.isoformat()
+  # Format datetime object to YYY-MM-DD
+  formatted_date = utc_date_obj.strftime("%Y-%m-%d")
 
   return {
     formatted_date: available_slots_by_court

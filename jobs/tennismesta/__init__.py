@@ -82,7 +82,7 @@ def fetch_available_slots_by_sport_center_id(sport_center_id: str, for_next_n_da
     for i in range(0, for_next_n_days):
         date = datetime.now() + timedelta(days=i)
         res = fetch_available_slots_for_date(sport_center_id, date)
-        formatted_date = date.isoformat()
+        formatted_date = date.strftime("%Y-%m-%d")
 
         available_slots_for_date = {}
         
