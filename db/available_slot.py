@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, UniqueConstraint
 from sqlalchemy.ext.declarative import declarative_base
 
-from db.db import conn
+from db.db import get_db_connection
 from pydantic.v1 import BaseModel
 
 class AvailableSlotSchema(BaseModel):
@@ -11,6 +11,11 @@ class AvailableSlotSchema(BaseModel):
   court_name: str
 
 def persist_available_slot(available_slot: AvailableSlotSchema) -> None:
+  conn = get_db_connection()
+  if not conn:
+     print("Failed to connect to database")
+     return
+  
   cur = conn.cursor()
   cur.execute(
     """

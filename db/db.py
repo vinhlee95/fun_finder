@@ -7,6 +7,7 @@ from google.cloud.sql.connector import Connector
 def get_db_connection():
   env = os.getenv("ENV")
   if env == "development":
+    print("Connecting to local database")
     try:
       conn = psycopg2.connect(os.getenv("DATABASE_URL"))
       return conn
@@ -15,6 +16,7 @@ def get_db_connection():
       return None
     
   # Connect to Google Cloud SQL on production
+  print("Connecting to Google Cloud SQL")
   connector = Connector()
 
   conn = connector.connect(

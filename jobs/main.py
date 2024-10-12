@@ -41,4 +41,9 @@ def main():
     return
 
 
-main()
+if __name__ == "__main__":
+  try:
+    main()
+  except Exception as e:
+    print(f"❌ failed to save available slots to DB {str(e)}")
+    exit(1)

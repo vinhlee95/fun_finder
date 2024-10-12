@@ -1,0 +1,27 @@
+# Use the official Python image from the Docker Hub
+FROM python:3.12.7-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the requirements file into the container
+COPY requirements.txt .
+
+# Install the dependencies
+RUN pip install -r requirements.txt
+
+# Install netcat
+RUN apt-get update && apt-get install -y netcat-openbsd
+
+# Copy jobs and db directories into the container
+COPY jobs/ jobs/
+COPY db/ db/
+
+# Set the PYTHONPATH environment variable
+ENV PYTHONPATH="${PYTHONPATH}:/app"
+
+# Expose the port that the app runs on
+EXPOSE 8080
+
+# Run the server
+CMD ["python", "jobs/main.py"]
