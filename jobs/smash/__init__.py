@@ -20,16 +20,40 @@ def get_smash_reservations(date_object: datetime):
   response.raise_for_status()
   return response.json()
 
-def get_hour_number(time: str):
+def get_hour_number(time: str) -> int:
   date_object = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
-  return date_object.hour
+  minute = date_object.minute
+
+  # If the minute is greater than 30, round the hour up
+  if minute >= 30:
+    return int(date_object.hour) + 1
+
+  return int(date_object.hour)
 
 def get_reservations_with_time(reservations):
   """Get start and end of reservations."""
-  return [{
-    "start": get_hour_number(reservation.get("start")),
-    "end": get_hour_number(reservation.get("end"))
-  } for reservation in reservations]
+  results = []
+
+  for reservation in reservations:
+    start = get_hour_number(reservation.get("start"))
+    end = get_hour_number(reservation.get("end"))
+
+    # end-start = 0 when a reservation is only for 30 minutes
+    # skip looking for a 30-minute availability
+    if end - start <= 1:
+      results.append({
+        "start": start,
+        "end": end,
+        "reserved_hours": [start]
+      })
+    else:
+      results.append({
+        "start": start,
+        "end": end,
+        "reserved_hours": [hour for hour in range(start, end)]
+      })
+  
+  return results
 
 def get_unique_court_id(reservations):
   """Get a list of unique court ids."""
@@ -59,8 +83,9 @@ def fetch_available_start_hour_by_date(date_obj: datetime = datetime.now()):
   # Get available start hour for each court
   available_slots_by_court = {}
   for court_id, reservations in reservations_by_court.items():
-    # Get a list of unique start hours
-    reserved_start_hours = set([reservation.get("start") for reservation in reservations])
+    # Get a list of unique start hours from reserved_hours
+    reserved_start_hours = list(set([hour for reservation in reservations for hour in reservation.get("reserved_hours")]))
+
     # print("Reserved starting hours", reserved_start_hours)
 
     # TODO: different start and end hours for weekdays and weekends
